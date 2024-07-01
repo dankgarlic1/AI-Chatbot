@@ -1,9 +1,10 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+
 dotenv.config();
 const mongodb_url = process.env.MONGODB_URL!;
 
-async function connectToDatabase() {
+export async function connectToDatabase() {
   try {
     await mongoose.connect(mongodb_url);
     console.log("Connected to MongoDB");
@@ -13,7 +14,7 @@ async function connectToDatabase() {
   }
 }
 
-async function disconnectFromDatabase() {
+export async function disconnectFromDatabase() {
   try {
     await mongoose.disconnect();
   } catch (error) {
@@ -21,4 +22,3 @@ async function disconnectFromDatabase() {
     throw new Error("Cannot disconnect from MongoDB");
   }
 }
-connectToDatabase();
