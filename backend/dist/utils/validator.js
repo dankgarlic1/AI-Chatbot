@@ -9,15 +9,25 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.signupValidator = exports.validate = void 0;
 const express_validator_1 = require("express-validator");
 const validate = (validations) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
         for (let validation of validations) {
             const result = yield validation.run(req);
+            if (!result.isEmpty()) {
+                break;
+            }
         }
+        const errors = (0, express_validator_1.validationResult)(req);
+        if (errors.isEmpty()) {
+            return next();
+        }
+        res.status(422).json({ errors: errors.array() });
     });
 };
-const signupValidator = [
+exports.validate = validate;
+exports.signupValidator = [
     (0, express_validator_1.body)("name").notEmpty().withMessage("Name is required"),
     (0, express_validator_1.body)("email").notEmpty().trim().isEmail().withMessage("Email is required"),
     (0, express_validator_1.body)("password")

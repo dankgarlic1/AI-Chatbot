@@ -32,7 +32,7 @@ export const userSignup = async (
     const user = new User({ name, email, password: hashedPassword });
     await user.save();
     return res
-      .status(200)
+      .status(201)
       .json({ msg: "User Created!", id: user._id.toString() });
   } catch (error) {
     console.log(error);
@@ -40,3 +40,5 @@ export const userSignup = async (
     return res.status(500).json({ msg: "Failed to create User", cause: error });
   }
 };
+
+export const userLogin = () => {};
