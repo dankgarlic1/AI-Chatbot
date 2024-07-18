@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import bcrypt, { compare } from "bcrypt";
 import User from "../models/User";
+import { createToken } from "../utils/token-manager";
+import { COOKIE_NAME } from "../utils/constants";
 
 export const getAllUsers = async (
   req: Request,
@@ -61,6 +63,22 @@ export const userLogin = async (
     if (!isPasswordCorrect) {
       return res.status(403).json({ msg: "Incorrect Password" });
     } else {
+      res.clearCookie(COOKIE_NAME, {
+        httpOnly: true,
+        signed: true,
+        domain: "localhost",
+        path: "/ ",
+      });
+      const token = createToken(user._id.toString(), user.email, "7d");
+      const expires = new Date();
+      expires.setDate(expires.getDate() + 7);
+      res.cookie(COOKIE_NAME, token, {
+        path: "/",
+        domain: "localhost",
+        expires,
+        httpOnly: true,
+        signed: true,
+      });
       return res
         .status(200)
         .json({ msg: "User Logged In!", id: user._id.toString() });
@@ -68,6 +86,6 @@ export const userLogin = async (
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({ msg: "Failed to create User", cause: error });
+    return res.status(500).json({ msg: "Failed to Login User", cause: error });
   }
 };
