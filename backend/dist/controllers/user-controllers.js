@@ -66,7 +66,7 @@ const userSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         yield user.save();
         return res
             .status(201)
-            .json({ msg: "User Created!", id: user._id.toString() });
+            .json({ msg: "User Created!", name: user.name, email: user.email });
     }
     catch (error) {
         console.log(error);
@@ -106,7 +106,7 @@ const userLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function
             });
             return res
                 .status(200)
-                .json({ msg: "User Logged In!", id: user._id.toString() });
+                .json({ msg: "User Logged In!", name: user.name, email: user.email });
         }
     }
     catch (error) {

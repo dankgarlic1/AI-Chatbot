@@ -8,3 +8,19 @@ body {
   color: white;
   font-family: "Roboto Slab", serif;
 }
+
+.nav-link {
+  font-weight: 600;
+  margin-right: 10px;
+  margin-left: 10px;
+  padding: 8px 20px;
+  text-transform: uppercase;
+  border-radius: 10px;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+/* Got these by inspect element  */
+.MuiOutlinedInput-input-root.Mui-focused,
+.MuiOutlinedInput-notchedOutline {
+  border-color: white !important;
+}

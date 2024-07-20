@@ -9,9 +9,11 @@ const morgan_1 = __importDefault(require("morgan"));
 const routes_1 = __importDefault(require("./routes"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const constants_1 = require("./utils/constants");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 //middlewares
+app.use((0, cors_1.default)({ origin: "http://localhost:5173", credentials: true }));
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)(constants_1.COOKIE_NAME));
 //remove it in production

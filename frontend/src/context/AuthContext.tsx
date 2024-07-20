@@ -1,11 +1,20 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { userLogin } from "../helpers/api-communicator";
 
+// Define a type for the User object
 type User = {
   name: string;
   email: string;
   password: string;
 };
 
+// Define a type for the authentication context value
 type UserAuth = {
   isLoggedIn: boolean;
   user: User | null;
@@ -13,16 +22,26 @@ type UserAuth = {
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
+
+// Create a context with the type UserAuth or null
 const AuthContext = createContext<UserAuth | null>(null);
-const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+// Define the AuthProvider component
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const [user, setUser] = useState<User | null>(null); // State to store user information
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // State to track if user is logged in
 
   useEffect(() => {
-    //fetch if users cookies are valid then skip login
+    // Effect to check if the user's cookies are valid and skip login if they are\
   }, []);
 
-  const login = async (email: string, password: string) => {};
+  const login = async (email: string, password: string) => {
+    const data = await userLogin(email, password);
+    if (data) {
+      setUser({ name: data.name, email: data.email, password: data.password });
+      setIsLoggedIn(true);
+    }
+  };
   const signup = async (name: string, email: string, password: string) => {};
   const logout = async () => {};
 
@@ -35,3 +54,5 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
+export const useAuth = () => useContext(AuthContext);
