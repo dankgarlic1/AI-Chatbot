@@ -57,7 +57,7 @@ export const userLogin = async (
     if (!user) {
       return res
         .status(401)
-        .json({ msg: "User not registered please Sign Up" });
+        .json({ msg: "User is not registered please Sign Up" });
     }
     const isPasswordCorrect = await compare(password, user.password);
     if (!isPasswordCorrect) {
@@ -82,6 +82,28 @@ export const userLogin = async (
       return res
         .status(200)
         .json({ msg: "User Logged In!", name: user.name, email: user.email });
+    }
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ msg: "Failed to Login User", cause: error });
+  }
+};
+
+export const verifyUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findById(res.locals.jwtData.id); //check token-manager.ts verifyToken to remember
+    if (!user) {
+      return res
+        .status(401)
+        .json({ msg: "User is not registered or Token malfunctioned" });
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      res.status(401).json({ msg: "Permissions didn't match" });
     }
   } catch (error) {
     console.log(error);

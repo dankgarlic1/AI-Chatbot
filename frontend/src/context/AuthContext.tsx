@@ -5,13 +5,12 @@ import {
   useEffect,
   useState,
 } from "react";
-import { userLogin } from "../helpers/api-communicator";
+import { checkAuthStatus, userLogin } from "../helpers/api-communicator";
 
 // Define a type for the User object
 type User = {
   name: string;
   email: string;
-  password: string;
 };
 
 // Define a type for the authentication context value
@@ -33,12 +32,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // Effect to check if the user's cookies are valid and skip login if they are\
+    async function checkStatus() {
+      const data = await checkAuthStatus();
+      if (data) {
+        setUser({ name: data.name, email: data.email });
+        setIsLoggedIn(true);
+      }
+    }
+    checkStatus();
   }, []);
 
   const login = async (email: string, password: string) => {
     const data = await userLogin(email, password);
     if (data) {
-      setUser({ name: data.name, email: data.email, password: data.password });
+      setUser({ name: data.name, email: data.email });
       setIsLoggedIn(true);
     }
   };
