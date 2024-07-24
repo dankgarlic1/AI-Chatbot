@@ -64,6 +64,23 @@ const userSignup = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const user = new User_1.default({ name, email, password: hashedPassword });
         yield user.save();
+        // create token and store cookie
+        res.clearCookie(constants_1.COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+        });
+        const token = (0, token_manager_1.createToken)(user._id.toString(), user.email, "7d");
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(constants_1.COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            expires,
+            httpOnly: true,
+            signed: true,
+        });
         return res
             .status(201)
             .json({ msg: "User Created!", name: user.name, email: user.email });
@@ -87,37 +104,37 @@ const userLogin = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         if (!isPasswordCorrect) {
             return res.status(403).json({ msg: "Incorrect Password" });
         }
-        else {
-            res.clearCookie(constants_1.COOKIE_NAME, {
-                httpOnly: true,
-                signed: true,
-                domain: "localhost",
-                path: "/ ",
-            });
-            const token = (0, token_manager_1.createToken)(user._id.toString(), user.email, "7d");
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 7);
-            res.cookie(constants_1.COOKIE_NAME, token, {
-                path: "/",
-                domain: "localhost",
-                expires,
-                httpOnly: true,
-                signed: true,
-            });
-            return res
-                .status(200)
-                .json({ msg: "User Logged In!", name: user.name, email: user.email });
-        }
+        // create token and store cookie
+        res.clearCookie(constants_1.COOKIE_NAME, {
+            httpOnly: true,
+            domain: "localhost",
+            signed: true,
+            path: "/",
+        });
+        const token = (0, token_manager_1.createToken)(user._id.toString(), user.email, "7d");
+        const expires = new Date();
+        expires.setDate(expires.getDate() + 7);
+        res.cookie(constants_1.COOKIE_NAME, token, {
+            path: "/",
+            domain: "localhost",
+            expires,
+            httpOnly: true,
+            signed: true,
+        });
+        return res
+            .status(200)
+            .json({ message: "OK", name: user.name, email: user.email });
     }
-    catch (error) {
-        console.log(error);
-        return res.status(500).json({ msg: "Failed to Login User", cause: error });
+    catch (e) {
+        console.log(e);
+        return res.status(200).json({ message: "ERROR", cause: e });
     }
 });
 exports.userLogin = userLogin;
 const verifyUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findById(res.locals.jwtData.id); //check token-manager.ts verifyToken to remember
+        console.log(res.locals.jwtData.id);
         if (!user) {
             return res
                 .status(401)
@@ -126,6 +143,9 @@ const verifyUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         if (user._id.toString() !== res.locals.jwtData.id) {
             res.status(401).json({ msg: "Permissions didn't match" });
         }
+        return res
+            .status(200)
+            .json({ message: "User verified", name: user.name, email: user.email });
     }
     catch (error) {
         console.log(error);

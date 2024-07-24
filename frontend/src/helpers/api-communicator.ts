@@ -11,10 +11,16 @@ export const userLogin = async (email: string, password: string) => {
 };
 
 export const checkAuthStatus = async () => {
-  const res = await axios.get("/user/auth-status");
-  if (res.status !== 200) {
-    throw new Error("Unable to authenticate");
+  try {
+    console.log("Called checkAuth status");
+
+    const res = await axios.get("/user/auth-status");
+    if (res.status !== 200 || 201) {
+      throw new Error("Unable to authenticate");
+    }
+    const data = await res.data;
+    return data;
+  } catch (error) {
+    console.log(error);
   }
-  const data = await res.data;
-  return data;
 };

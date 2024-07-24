@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.signupValidator = exports.loginValidator = exports.validate = void 0;
+exports.chatCompletionValidator = exports.signupValidator = exports.loginValidator = exports.validate = void 0;
 const express_validator_1 = require("express-validator");
 const validate = (validations) => {
     return (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -38,4 +38,7 @@ exports.loginValidator = [
 exports.signupValidator = [
     (0, express_validator_1.body)("name").notEmpty().withMessage("Name is required"),
     ...exports.loginValidator,
+];
+exports.chatCompletionValidator = [
+    (0, express_validator_1.body)("message").notEmpty().withMessage("Message is required"),
 ];

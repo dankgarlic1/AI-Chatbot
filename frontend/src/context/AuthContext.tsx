@@ -33,8 +33,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Effect to check if the user's cookies are valid and skip login if they are\
     async function checkStatus() {
+      console.log("Called checkstaus");
+
       const data = await checkAuthStatus();
       if (data) {
+        console.log(data);
+
         setUser({ name: data.name, email: data.email });
         setIsLoggedIn(true);
       }
