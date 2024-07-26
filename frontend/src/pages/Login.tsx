@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { MdOutlineLogin } from "react-icons/md";
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { CustomizedInput } from "../components/shared/CustomizedInput";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -9,6 +10,7 @@ axios.defaults.baseURL = "http://localhost:3000/api/v1";
 axios.defaults.withCredentials = true;
 function Login() {
   const auth = useAuth();
+  const navigate = useNavigate();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -24,6 +26,11 @@ function Login() {
       toast.error("Signing In Failed", { id: "login" });
     }
   };
+  useEffect(() => {
+    if (auth?.user) {
+      return navigate("/chats");
+    }
+  }, [auth]);
   return (
     <Box width={"100%"} display={"flex"} flex={1} height={"100%"}>
       <Box padding={8} mt={8} display={{ md: "flex", sm: "none", xs: "none" }}>

@@ -9,4 +9,5 @@ userRoutes.get("/", user_controllers_1.getAllUsers);
 userRoutes.post("/signUp", (0, validator_1.validate)(validator_1.signupValidator), user_controllers_1.userSignup);
 userRoutes.post("/login", (0, validator_1.validate)(validator_1.loginValidator), user_controllers_1.userLogin);
 userRoutes.get("/auth-status", token_manager_1.verifyToken, user_controllers_1.verifyUser);
+userRoutes.get("/logout", token_manager_1.verifyToken, user_controllers_1.userLogout);
 exports.default = userRoutes;

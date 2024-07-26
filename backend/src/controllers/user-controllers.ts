@@ -104,7 +104,7 @@ export const userLogin = async (
 
     return res
       .status(200)
-      .json({ message: "OK", name: user.name, email: user.email });
+      .json({ message: "User logged in", name: user.name, email: user.email });
   } catch (e) {
     console.log(e);
     return res.status(200).json({ message: "ERROR", cause: e });
@@ -135,5 +135,38 @@ export const verifyUser = async (
     console.log(error);
 
     return res.status(500).json({ msg: "Failed to Login User", cause: error });
+  }
+};
+
+export const userLogout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findById(res.locals.jwtData.id); //check token-manager.ts verifyToken to remember
+    // console.log(res.locals.jwtData.id);
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ msg: "User is not registered or Token malfunctioned" });
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      res.status(401).json({ msg: "Permissions didn't match" });
+    }
+    res.clearCookie(COOKIE_NAME, {
+      httpOnly: true,
+      domain: "localhost",
+      signed: true,
+      path: "/",
+    });
+    return res
+      .status(200)
+      .json({ message: "User logged out", name: user.name, email: user.email });
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({ msg: "Failed to Logout User", cause: error });
   }
 };

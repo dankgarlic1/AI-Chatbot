@@ -1,17 +1,77 @@
-import React from "react";
-import { Avatar, Box, Typography, Button } from "@mui/material";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Box, Typography, Button, IconButton } from "@mui/material";
+import { IoMdSend } from "react-icons/io";
 import { useAuth } from "../context/AuthContext";
 import { red } from "@mui/material/colors";
 import ChatItem from "../components/chat/ChatItem";
-import { ChatMessages } from "../components/chat/chatSample";
+
+import {
+  deleteUserChat,
+  getUserChat,
+  sendChatRequest,
+} from "../helpers/api-communicator";
+import toast from "react-hot-toast";
+import { GetInitials } from "../helpers/get-initial";
+
+type Message = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 function Chat() {
   const auth = useAuth();
-  const chatMessages = ChatMessages;
+  const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [chatMessages, setChatMessages] = useState<Message[]>([]);
+
+  const handleSubmit = async () => {
+    const content = inputRef.current?.value as string;
+    if (inputRef && inputRef.current) {
+      inputRef.current.value = "";
+    }
+    const newMessage: Message = { role: "user", content };
+    setChatMessages((prev) => [...prev, newMessage]);
+    const chatData = await sendChatRequest(content);
+    setChatMessages([...chatData.chats]);
+  };
+  const handleDeleteChats = async () => {
+    try {
+      toast.loading("Deleting chats", { id: "deletechats" });
+      await deleteUserChat();
+      setChatMessages([]);
+      toast.success("Deleted chats successfully", { id: "deletechats" });
+    } catch (error) {
+      console.log(error);
+      toast.error("Deleting chats failed", { id: "deletechats" });
+    }
+  };
+  useLayoutEffect(() => {
+    if (auth?.isLoggedIn && auth.user) {
+      toast.loading("Loading Chats", { id: "loadchats" });
+      getUserChat()
+        .then((data) => {
+          setChatMessages([...data.chats]);
+          toast.success("Successfully loaded chats", { id: "loadchats" });
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Loading failed", { id: "loadchats" });
+        });
+    }
+  }, [auth]);
+  useEffect(() => {
+    if (!auth?.user) {
+      return navigate("/login");
+    }
+  }, [auth]);
+
+  const getInitials = GetInitials(auth?.user?.name!);
   return (
     <Box
       sx={{
         display: "flex",
+        flexDirection: { md: "row", xs: "column" }, // Adjusts layout for different screen sizes
         flex: 1,
         width: "100%",
         height: "100%",
@@ -30,7 +90,7 @@ function Chat() {
           sx={{
             display: "flex",
             width: "100%",
-            height: "60vh",
+            height: "75vh",
             bgcolor: "rgb(17,29,39)",
             borderRadius: 5,
             flexDirection: "column",
@@ -46,8 +106,7 @@ function Chat() {
               fontWeight: 600,
             }}
           >
-            {auth?.user?.name[0]}
-            {auth?.user?.name.split(" ")[1][0]}
+            {getInitials}
           </Avatar>
           <Typography sx={{ mx: "auto", fontFamily: "work sans" }}>
             You are talking to a Chatbot
@@ -57,6 +116,7 @@ function Chat() {
             Education, etc. But avoid sharing personal information
           </Typography>
           <Button
+            onClick={handleDeleteChats}
             sx={{
               width: "200px",
               my: "auto",
@@ -65,6 +125,7 @@ function Chat() {
               borderRadius: 3,
               mx: "auto",
               bgcolor: red[300],
+
               ":hover": {
                 bgcolor: red.A400,
               },
@@ -79,6 +140,7 @@ function Chat() {
           display: "flex",
           flex: { md: 0.8, xs: 1, sm: 1 },
           flexDirection: "column",
+          mr: 3,
           px: 3,
         }}
       >
@@ -88,6 +150,7 @@ function Chat() {
             fontSize: "40px",
             color: "white",
             mb: 2,
+            mr: 2,
             mx: "auto",
           }}
         >
@@ -105,6 +168,7 @@ function Chat() {
             overflowX: "hidden",
             overflowY: "auto",
             scrollBehavior: "smooth",
+            wordWrap: "break-word",
           }}
         >
           {chatMessages.map((chat, index) => (
@@ -115,6 +179,42 @@ function Chat() {
             ></ChatItem>
           ))}
         </Box>
+        <div
+          style={{
+            width: "100%",
+
+            borderRadius: 8,
+            backgroundColor: "rgb(17,27,39)",
+            display: "flex",
+            margin: "auto",
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Whats up?"
+            ref={inputRef}
+            style={{
+              width: "100%",
+              marginBottom: "2px",
+              backgroundColor: "transparent",
+              padding: "30px",
+              border: "none",
+              outline: "none",
+              color: "white",
+              fontSize: "20px",
+            }}
+          />
+          <IconButton
+            onClick={handleSubmit}
+            sx={{
+              // ml: "auto",
+              color: "white",
+              mx: 1,
+            }}
+          >
+            <IoMdSend />
+          </IconButton>
+        </div>
       </Box>
     </Box>
   );

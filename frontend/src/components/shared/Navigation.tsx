@@ -12,6 +12,7 @@ const Navigation = (props: Props) => {
       to={props.to}
       style={{ background: props.bg, color: props.textColor }}
       className="nav-link"
+      onClick={props.onClick}
     >
       {props.text}
     </Link>

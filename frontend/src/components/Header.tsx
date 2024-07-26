@@ -24,7 +24,7 @@ const Header = () => {
               />
               <Navigation
                 text="Logout"
-                to="/homepage"
+                to="/"
                 bg="#51538f"
                 textColor="white"
                 onClick={auth.logout}
