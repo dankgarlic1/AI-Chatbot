@@ -54,12 +54,12 @@ Welcome to the ChatWise-GPT project! This application demonstrates a modern chat
    - Start the backend server:
      ```bash
      cd backend
-     npm start
+     npm run dev
      ```
    - Start the frontend development server:
      ```bash
      cd ../frontend
-     npm start
+     npm run dev
      ```
 
 ## Usage
