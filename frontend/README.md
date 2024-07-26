@@ -1,30 +1,89 @@
-# React + TypeScript + Vite
+# AI-Chatbot with OPENAI Integration
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the ChatWise-GPT project! This application demonstrates a modern chat interface powered by the MERN stack (MongoDB, Express, React, Node.js) and TypeScript. It integrates advanced AI capabilities with OpenAI's model to offer an intelligent and engaging chat experience.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **MERN Stack**:
 
-## Expanding the ESLint configuration
+  - **MongoDB**: NoSQL database to manage chat data.
+  - **Express**: Node.js framework for building the REST API.
+  - **React**: Frontend library for building dynamic user interfaces.
+  - **Node.js**: Server-side JavaScript runtime environment.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Secure Authentication**: Implemented to ensure that user interactions and data are protected.
 
-- Configure the top-level `parserOptions` property like this:
+- **OpenAI Model Integration**: Incorporates OpenAI’s conversational model to provide smart and responsive AI interactions.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+- **Modern Design**: Crafted with Material-UI (MUI) to create a visually appealing and responsive user interface.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **TypeScript**: Utilizes TypeScript for type safety and improved development efficiency.
+
+## Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/chat-application.git
+   ```
+
+2. **Navigate to the project directory:**
+
+   ```bash
+   cd chat-application
+   ```
+
+3. **Install backend dependencies:**
+
+   ```bash
+   cd backend
+   npm install
+   ```
+
+4. **Install frontend dependencies:**
+
+   ```bash
+   cd ../frontend
+   npm install
+   ```
+
+5. **Configure environment variables:**
+   Create a `.env` file in both `frontend` and `backend` directories and add the necessary environment variables (e.g., database connection strings, API keys).
+
+6. **Run the application:**
+   - Start the backend server:
+     ```bash
+     cd backend
+     npm start
+     ```
+   - Start the frontend development server:
+     ```bash
+     cd ../frontend
+     npm start
+     ```
+
+## Usage
+
+- **Chat Interface**: Interact with the AI through a clean and responsive chat interface.
+- **AI Responses**: Receive intelligent responses powered by OpenAI's conversational model.
+- **Secure Communication**: Enjoy secure and private conversations with robust authentication.
+
+## Contributing
+
+Contributions are welcome! If you have suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
+
+## License
+
+This project is licensed under a **Commercial License**. You may not copy, distribute, or modify this software without explicit permission. For detailed licensing terms, please refer to the `LICENSE` file in the repository.
+
+## Acknowledgments
+
+- [OpenAI](https://openai.com) for providing the AI model.
+- [Material-UI](https://mui.com) for the modern design components.
+- [MERN Stack](https://www.mongodb.com/mern-stack) for the robust technology stack.
+
+## Contact
+
+For any questions or inquiries, please reach out to my [LinkedIn profile](https://www.linkedin.com/in/harshit-raizada-32b909231/).
+
+---
