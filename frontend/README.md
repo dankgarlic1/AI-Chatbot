@@ -1,5 +1,7 @@
 # AI-Chatbot with OPENAI Integration
 
+![ChatWise-GPT](./public/chat.png)
+
 Welcome to the ChatWise-GPT project! This application demonstrates a modern chat interface powered by the MERN stack (MongoDB, Express, React, Node.js) and TypeScript. It integrates advanced AI capabilities with OpenAI's model to offer an intelligent and engaging chat experience.
 
 ## Features
