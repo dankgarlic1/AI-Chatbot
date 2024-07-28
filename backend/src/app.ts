@@ -12,7 +12,7 @@ const app = express();
 //middlewares
 app.use(
   cors({
-    origin: "https://chatwise-gpt-frontend.onrender.com/",
+    origin: "https://chatwise-gpt-frontend.onrender.com",
     credentials: true,
   })
 );
