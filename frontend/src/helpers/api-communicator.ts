@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://chatwise-gpt-backend.onrender.com",
+  baseURL: "https://chatwise-gpt-backend.onrender.com/api/v1",
   withCredentials: true,
 });
 export const userLogin = async (email: string, password: string) => {
