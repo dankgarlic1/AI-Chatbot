@@ -10,6 +10,8 @@ export const createToken = (id: string, email: string, expiresIn: string) => {
   const payload = { id, email };
   const jwtSecret = process.env.JWT_SECRET!;
   const token = jwt.sign(payload, jwtSecret, { expiresIn });
+  console.log(`Token created ${token}`);
+
   return token;
 };
 
@@ -20,7 +22,7 @@ export const verifyToken = async (
 ) => {
   const token = req.signedCookies[`${COOKIE_NAME}`];
   if (!token || token.trim() === "") {
-    console.log(token);
+    console.log(`Startng verifying the token ${token}`);
 
     return res.status(401).json({ message: "Token not Recieved" });
   }
