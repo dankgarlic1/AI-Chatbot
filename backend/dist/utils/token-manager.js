@@ -22,12 +22,14 @@ const createToken = (id, email, expiresIn) => {
     const payload = { id, email };
     const jwtSecret = process.env.JWT_SECRET;
     const token = jsonwebtoken_1.default.sign(payload, jwtSecret, { expiresIn });
+    console.log(`Token created ${token}`);
     return token;
 };
 exports.createToken = createToken;
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.signedCookies[`${constants_1.COOKIE_NAME}`];
     if (!token || token.trim() === "") {
+        console.log(`Startng verifying the token ${token}`);
         return res.status(401).json({ message: "Token not Recieved" });
     }
     return new Promise((resolve, reject) => {
