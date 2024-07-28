@@ -46,6 +46,14 @@ function Chat() {
       toast.error("Deleting chats failed", { id: "deletechats" });
     }
   };
+  const handleKeyPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Prevent the default form submission
+      await handleSubmit();
+    }
+  };
   useLayoutEffect(() => {
     if (auth?.isLoggedIn && auth.user) {
       toast.loading("Loading Chats", { id: "loadchats" });
@@ -112,8 +120,9 @@ function Chat() {
             You are talking to a Chatbot
           </Typography>
           <Typography sx={{ mx: "auto", fontFamily: "work sans", my: 4, p: 3 }}>
-            You can ask some questions related to Knowledge, Business, Advices,
-            Education, etc. But avoid sharing personal information
+            Feel free to rant, gossip, or ask about Knowledge, Business, Advice,
+            Education, etc. Just don't share your personal drama - my bot is not
+            your therapist🤫🧏‍♂️
           </Typography>
           <Button
             onClick={handleDeleteChats}
@@ -147,14 +156,14 @@ function Chat() {
         <Typography
           sx={{
             textAlign: "center",
-            fontSize: "40px",
+            fontSize: "45px",
             color: "white",
             mb: 2,
             mr: 2,
             mx: "auto",
           }}
         >
-          Model - GPT 3.5 Turbo
+          Unlike you, our chats keep secrets: fully encrypted and secure🙃
         </Typography>
         <Box
           sx={{
@@ -191,8 +200,9 @@ function Chat() {
         >
           <input
             type="text"
-            placeholder="Whats up?"
+            placeholder="Type here, because your friends stopped listening. Got a question, or just wanna whine?"
             ref={inputRef}
+            onKeyDown={handleKeyPress}
             style={{
               width: "100%",
               marginBottom: "2px",
