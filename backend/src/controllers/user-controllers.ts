@@ -3,7 +3,6 @@ import bcrypt, { compare } from "bcrypt";
 import User from "../models/User";
 import { createToken } from "../utils/token-manager";
 import { COOKIE_NAME } from "../utils/constants";
-import dotenv from "dotenv";
 
 const domain = "chatwise-gpt-backend.onrender.com";
 
