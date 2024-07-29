@@ -28,6 +28,7 @@ const createToken = (id, email, expiresIn) => {
 exports.createToken = createToken;
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.signedCookies[`${constants_1.COOKIE_NAME}`];
+    console.log(`Checking if cookie/token is set${token}`);
     if (!token || token.trim() === "") {
         console.log(`Startng verifying the token ${token}`);
         return res.status(401).json({ message: "Token not Recieved" });

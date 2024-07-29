@@ -21,6 +21,8 @@ export const verifyToken = async (
   next: NextFunction
 ) => {
   const token = req.signedCookies[`${COOKIE_NAME}`];
+  console.log(`Checking if cookie/token is set${token}`);
+
   if (!token || token.trim() === "") {
     console.log(`Startng verifying the token ${token}`);
 
