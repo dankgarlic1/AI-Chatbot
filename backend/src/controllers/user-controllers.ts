@@ -3,6 +3,9 @@ import bcrypt, { compare } from "bcrypt";
 import User from "../models/User";
 import { createToken } from "../utils/token-manager";
 import { COOKIE_NAME } from "../utils/constants";
+import dotenv from "dotenv";
+
+const domain = "chatwise-gpt-backend.onrender.com";
 
 export const getAllUsers = async (
   req: Request,
@@ -39,17 +42,23 @@ export const userSignup = async (
     // create token and store cookie
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: domain,
+      secure: true,
+      sameSite: "none",
       signed: true,
       path: "/",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
+    console.log(`Created token while signing up ${token}`);
+
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: domain,
+      secure: true,
+      sameSite: "none",
       expires,
       httpOnly: true,
       signed: true,
@@ -86,17 +95,23 @@ export const userLogin = async (
 
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: domain,
+      secure: true,
+      sameSite: "none",
       signed: true,
       path: "/",
     });
 
     const token = createToken(user._id.toString(), user.email, "7d");
+    console.log(`Created token while logging in ${token}`);
+
     const expires = new Date();
     expires.setDate(expires.getDate() + 7);
     res.cookie(COOKIE_NAME, token, {
       path: "/",
-      domain: "localhost",
+      domain: domain,
+      secure: true,
+      sameSite: "none",
       expires,
       httpOnly: true,
       signed: true,
@@ -157,7 +172,9 @@ export const userLogout = async (
     }
     res.clearCookie(COOKIE_NAME, {
       httpOnly: true,
-      domain: "localhost",
+      domain: domain,
+      secure: true,
+      sameSite: "none",
       signed: true,
       path: "/",
     });
