@@ -6,10 +6,13 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const theme = createTheme({
   typography: { fontFamily: "Roboto Slab", allVariants: { color: "white" } },
 });
+axios.defaults.baseURL = "https://chatwise-gpt-backend.onrender.com/api/v1";
+axios.defaults.withCredentials = true;
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>

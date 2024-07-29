@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "https://chatwise-gpt-backend.onrender.com/api/v1",
-  withCredentials: true,
-});
+// const api = axios.create({
+//   baseURL: "https://chatwise-gpt-backend.onrender.com/api/v1",
+//   withCredentials: true,
+// });
 export const userLogin = async (email: string, password: string) => {
-  const res = await api.post("/user/login", { email, password });
+  const res = await axios.post("/user/login", { email, password });
   if (res.status !== 200) {
     throw new Error("Unable to Login");
   }
@@ -18,7 +18,7 @@ export const userSignup = async (
   email: string,
   password: string
 ) => {
-  const res = await api.post("/user/signup", { name, email, password });
+  const res = await axios.post("/user/signup", { name, email, password });
   if (res.status !== 201) {
     throw new Error("Unable to Signup");
   }
@@ -31,7 +31,7 @@ export const checkAuthStatus = async () => {
   try {
     // console.log("Called checkAuth status");
 
-    const res = await api.get("/user/auth-status");
+    const res = await axios.get("/user/auth-status");
     console.log(res.status);
 
     if (res.status !== 200) {
@@ -46,7 +46,7 @@ export const checkAuthStatus = async () => {
 
 export const sendChatRequest = async (message: string) => {
   try {
-    const res = await api.post("/chats/new", { message });
+    const res = await axios.post("/chats/new", { message });
     if (res.status !== 200) {
       throw new Error("Unable to send Chat");
     }
@@ -58,7 +58,7 @@ export const sendChatRequest = async (message: string) => {
 };
 export const getUserChat = async () => {
   try {
-    const res = await api.get("/chats/all-chats");
+    const res = await axios.get("/chats/all-chats");
     if (res.status !== 200) {
       throw new Error("Unable to send Chat");
     }
@@ -70,7 +70,7 @@ export const getUserChat = async () => {
 };
 export const deleteUserChat = async () => {
   try {
-    const res = await api.delete("/chats/delete");
+    const res = await axios.delete("/chats/delete");
     if (res.status !== 200) {
       throw new Error("Unable to delete Chat");
     }
@@ -82,7 +82,7 @@ export const deleteUserChat = async () => {
 };
 export const userLogout = async () => {
   try {
-    const res = await api.get("/user/logout");
+    const res = await axios.get("/user/logout");
     if (res.status !== 200) {
       throw new Error("Unable to logout user");
     }
