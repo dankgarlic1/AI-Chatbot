@@ -24,13 +24,13 @@ Welcome to the ChatWise-GPT project! This application demonstrates a modern chat
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-username/chat-application.git
+   git clone https://github.com/dankgarlic1/AI-Chatbot.git
    ```
 
 2. **Navigate to the project directory:**
 
    ```bash
-   cd chat-application
+   cd AI-Chatbot
    ```
 
 3. **Install backend dependencies:**
