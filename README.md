@@ -68,10 +68,6 @@ Welcome to the ChatWise-GPT project! This application demonstrates a modern chat
 - **AI Responses**: Receive intelligent responses powered by OpenAI's conversational model.
 - **Secure Communication**: Enjoy secure and private conversations with robust authentication.
 
-## Contributing
-
-Contributions are welcome! If you have suggestions, bug reports, or feature requests, please open an issue or submit a pull request.
-
 ## License
 
 This project is licensed under a **Commercial License**. You may not copy, distribute, or modify this software without explicit permission. For detailed licensing terms, please refer to the `LICENSE` file in the repository.
