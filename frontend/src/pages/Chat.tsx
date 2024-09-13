@@ -73,6 +73,15 @@ function Chat() {
       return navigate("/login");
     }
   }, [auth]);
+  useEffect(() => {
+    const messageContainer = document.getElementById("message-container");
+    if (messageContainer) {
+      messageContainer.scrollTo({
+        top: messageContainer.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [chatMessages]); // This effect runs when chatMessages changes
 
   const getInitials = GetInitials(auth?.user?.name!);
   return (
@@ -166,6 +175,7 @@ function Chat() {
           Unlike you, our chats keep secrets: fully encrypted and secure🙃
         </Typography>
         <Box
+          id="message-container"
           sx={{
             width: "100%",
             height: "60vh",
